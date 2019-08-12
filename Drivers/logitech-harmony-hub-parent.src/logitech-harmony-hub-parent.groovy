@@ -69,8 +69,10 @@ metadata {
 }
 
 preferences {
+    input name: "VolumeRepeat", type: "text", title: "Increase/Decrease Volume by # of repeats", required: false, defaultValue: "0"
     input("ip", "text", title: "IP Address", description: "IP Address", required: true)
     input name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: true
+    
 }
 
 
@@ -338,6 +340,7 @@ def unmute() {
 }
 
 def volumeUp() {
+    for(int x=0; x<VolumeRepeat.toInteger();x++) {
     state.HarmonyConfig.each { it ->
         if (it.id == state.currentActivity) {
             if (it.VolumeActivityRole != "null") {
@@ -347,9 +350,11 @@ def volumeUp() {
             }
         }
     }
+    }
 }
 
 def volumeDown() {
+    for(int x=0; x<VolumeRepeat.toInteger();x++) {
     state.HarmonyConfig.each { it ->
         if (it.id == state.currentActivity) {
             if (it.VolumeActivityRole != "null") {
@@ -358,6 +363,7 @@ def volumeDown() {
                 log.info "Activity ${it.label} does not support volume control"
             }
         }
+    }
     }
 }
 
